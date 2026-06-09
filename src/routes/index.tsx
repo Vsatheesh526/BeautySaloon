@@ -32,7 +32,7 @@ function Home() {
   return (
     <>
       {/* HERO */}
-      <section className="relative bg-blush overflow-hidden">
+      <section className="relative bg-pink-300 overflow-hidden">
         <div className="max-w-7xl mx-auto px-6 lg:px-12 grid lg:grid-cols-2 gap-8 items-center min-h-[85vh] py-16">
           <div className="relative z-10">
             <motion.p
@@ -94,7 +94,7 @@ function Home() {
       </section>
 
       {/* ABOUT STRIP */}
-      <section className="py-24 bg-blush/30">
+      <section className="py-24 bg-rose-200">
         <div className="max-w-6xl mx-auto px-6 lg:px-12 text-center">
           <SectionReveal>
             <p className="eyebrow">About Harika Beauty Saloon</p>

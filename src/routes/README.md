@@ -19,3 +19,36 @@ is `src/routes/__root.tsx`.
 | `__root.tsx` | app shell — wraps every page; preserve `<Outlet />` |
 
 `routeTree.gen.ts` is auto-generated. Don't edit it by hand.
+
+
+Optimized tool selectionInspecting manifest files for the project's stack.
+
+Read [](file:///c%3A/Users/sathe/OneDrive/Pictures/OneDrive/Desktop/projects/beauty-bloom-studio-main/package.json)
+
+Read [](file:///c%3A/Users/sathe/OneDrive/Pictures/OneDrive/Desktop/projects/beauty-bloom-studio-main/bunfig.toml)
+
+## Tech stack
+
+- **Frontend framework**: React `^19.2.0`
+- **Language**: TypeScript `^5.8.3`
+- **Build tool**: Vite `^7.3.1`
+- **Styling**: Tailwind CSS `^4.2.1`
+- **State / data**:
+  - `@tanstack/react-query`
+  - `@tanstack/react-router`
+  - `@tanstack/react-start`
+- **UI / component primitives**:
+  - Radix UI packages (`@radix-ui/react-*`)
+  - `framer-motion`
+  - `lucide-react`
+  - `cmdk`
+- **Form + validation**:
+  - `react-hook-form`
+  - `@hookform/resolvers`
+  - `zod`
+- **Tooling**:
+  - ESLint
+  - Prettier
+  - `vite-tsconfig-paths`
+
+So this is a modern React + TypeScript app using Vite and Tailwind CSS with TanStack and Radix UI libraries.
