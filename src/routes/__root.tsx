@@ -54,10 +54,11 @@ function ErrorComponent({ error, reset }: { error: Error; reset: () => void }) {
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   head: () => ({
     meta: [
-      { name: "google-site-verification", content: "XnIPD4-dVbKrFITvXXbqURHoJ1B8k6B6dB0iqdNiV-Q" },
+    
       { charSet: "utf-8" },
+      { name: "google-site-verification", content: "XnIPD4-dVbKrFITvXXbqURHoJ1B8k6B6dB0iqdNiV-Q" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Harika Beauty Saloon — Enhancing Your Natural Beauty" },
+      { title: "Harika Beauty Parlour in Anantapur | Hair, Makeup, Bridal Services" },
       { name: "description", content: "A modern beauty saloon offering hair styling, bridal makeup, facials, spa & more. Book your appointment today." },
       { name: "author", content: "Harika Beauty Saloon" },
       { property: "og:title", content: "Harika Beauty Saloon" },
