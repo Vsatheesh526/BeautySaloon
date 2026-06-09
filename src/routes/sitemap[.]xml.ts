@@ -4,7 +4,7 @@ export const Route = createFileRoute("/sitemap.xml")({
     handlers: {
       GET: async () => {
         const paths = ["/", "/services", "/about", "/gallery", "/contact", "/booking"];
-        const BASE_URL = "https://beauty-saloon-git-main-vsatheesh526s-projects.vercel.app";
+        const BASE_URL = "https://beauty-saloon-dusky.vercel.app/";
 
         const urls = paths.map((p) => {
           const loc = new URL(p, BASE_URL).href;
