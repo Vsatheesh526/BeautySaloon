@@ -22,19 +22,21 @@ const CATEGORIES = [
   "All",
   "Threading",
   "Haircuts",
+  "Hair Treatments",
   "Waxing",
+  "Massages",
+  "Nail Care",
   "Facials",
   "Bleaches",
-  "Packages",
-  "Bridal",
   "Makeup",
+  "Bridal",
 ] as const;
 
 type Category = (typeof CATEGORIES)[number];
 
 interface ServiceItem {
   name: string;
-  price: string | null; // null for package items with no individual price
+  price: string | null;
   note?: string;
 }
 
@@ -49,100 +51,134 @@ const SERVICE_DATA: ServiceGroup[] = [
     category: "Threading",
     emoji: "🪶",
     items: [
-      { name: "Eyebrow Threading", price: "₹40" },
-      { name: "Upper Lip", price: "₹10" },
-      { name: "Chin", price: "₹30" },
-      { name: "Full Face Threading", price: "₹100" },
+      { name: "Eyebrow shape", price: "₹50" },
+      { name: "Upper Lip", price: "₹30" },
+      { name: "Chin", price: "₹40" },
+      { name: "Full Face", price: "₹150" },
     ],
   },
   {
     category: "Haircuts",
     emoji: "✂️",
     items: [
-      { name: "Straight Cut", price: "₹70" },
-      { name: "Light 'U' Cut", price: "₹100" },
-      { name: "Deep 'U' Cut", price: "₹150" },
-      { name: "'V' Cut", price: "₹150" },
-      { name: "Step Cut", price: "₹400" },
-      { name: "Layer Step", price: "₹450" },
-      { name: "Feather Cut", price: "₹450" },
-      { name: "Cutting & Setting", price: "₹750" },
-      { name: "Front Layers", price: "₹100" },
-      { name: "Baby Cut", price: "₹150" },
-      { name: "Split Ends Cut", price: "₹250" },
+      { name: "Hair split ends", price: "₹350" },
+      { name: "Baby Hair cut", price: "₹200" },
+      { name: "Straight cut", price: "₹200" },
+      { name: "Light U cut", price: "₹250" },
+      { name: "Deep U cut", price: "₹250" },
+      { name: "Step cut", price: "₹550" },
+      { name: "Layer cut", price: "₹550" },
+      { name: "Father cut", price: "₹600" },
+      { name: "Step with layers", price: "₹650" },
+      { name: "Butterfly cut", price: "₹650" },
+      { name: "Blow dry setting", price: "₹400" },
+    ],
+  },
+  {
+    category: "Hair Treatments",
+    emoji: "💆‍♀️",
+    items: [
+      { name: "Hair wash & conditioning", price: "₹250" },
+      { name: "Hair Spa", price: "₹700 / ₹800 / ₹1000" },
+      { name: "Hair Conditioning pack", price: "₹500 / ₹700" },
+      { name: "Henna", price: "₹400+" },
+      { name: "Hair Coloring", price: "₹350+" },
+      { name: "Hair Re-growth treatment", price: "₹1000" },
+      { name: "Hair Dandruff treatment", price: "₹1000" },
+      { name: "Temporary Hair Straightening", price: null, note: "Price on request" },
+      { name: "Noodles Hair curing", price: null, note: "Price on request" },
     ],
   },
   {
     category: "Waxing",
     emoji: "🧴",
     items: [
-      { name: "Hand Wax (Normal)", price: "₹250" },
-      { name: "Hand Wax (Chocolate)", price: "₹300" },
-      { name: "Half Leg Wax", price: "₹250" },
-      { name: "Full Leg Wax", price: "₹400" },
-      { name: "Underarms", price: "₹50" },
-      { name: "Full Face Wax", price: "₹100" },
-      { name: "Upper Lip Wax", price: "₹25" },
-      { name: "Chin Wax", price: "₹50" },
+      { name: "Face wax", price: "₹200" },
+      { name: "Upper Lip wax", price: "₹50" },
+      { name: "Chin wax", price: "₹100" },
+      { name: "Under arm wax", price: "₹100" },
+      { name: "Hand wax", price: "₹350" },
+      { name: "Half leg wax", price: "₹350" },
+      { name: "Full leg wax", price: "₹600" },
+    ],
+  },
+  {
+    category: "Massages",
+    emoji: "🖐️",
+    items: [
+      { name: "Relaxing face massage", price: "₹400" },
+      { name: "Head Massage (oil)", price: "₹400" },
+      { name: "Neck Massage (oil)", price: "₹400" },
+    ],
+  },
+  {
+    category: "Nail Care",
+    emoji: "💅",
+    items: [
+      { name: "Pedicure", price: "₹650" },
+      { name: "Manicure", price: "₹600" },
     ],
   },
   {
     category: "Facials",
     emoji: "🌿",
     items: [
-      { name: "Face Cleanup", price: "₹250" },
-      { name: "Fruit Facial", price: "₹400" },
-      { name: "Gel Facial", price: "₹500" },
-      { name: "Wine Facial", price: "₹600" },
-      { name: "Tea Tree Facial", price: "₹600" },
-      { name: "Papaya Facial", price: "₹450" },
-      { name: "Strawberry Facial", price: "₹450" },
-      { name: "Mixed Fruit Facial", price: "₹500" },
-      { name: "Galvanic Facial", price: "₹650" },
-      { name: "Gold Facial", price: "₹1500" },
-      { name: "Diamond Facial", price: "₹2000" },
-      { name: "White Cleaning", price: "₹2500" },
-      { name: "Bridal Facial", price: "₹2000" },
-      { name: "D-Tan Facial", price: "₹650" },
+      { name: "Regular Cleanup", price: "₹350" },
+      { name: "Fruit Cleanup", price: "₹400" },
+      { name: "Oil Remove cleanup", price: "₹500" },
+      { name: "Dry skin cleanup", price: "₹400" },
+      { name: "Gold cleanup", price: "₹600" },
+      { name: "Pimple cleanup", price: "₹500" },
+      { name: "Basic facial", price: "₹500" },
+      { name: "Mixed fruit facial", price: "₹600" },
+      { name: "Papaya facial", price: "₹650" },
+      { name: "Tea tree facial", price: "₹650" },
+      { name: "Strawberry facial", price: "₹600" },
+      { name: "Gel facial", price: "₹750" },
+      { name: "Wine facial", price: "₹750" },
+      { name: "Pearl facial", price: "₹1000" },
+      { name: "Cucumber facial", price: "₹1200" },
+      { name: "Dtan facial", price: "₹1400" },
+      { name: "7 step facial", price: "₹1500" },
+      { name: "8 step facial", price: "₹2000" },
+      { name: "Gold facial", price: "₹2000" },
+      { name: "Diamond facial", price: "₹2500" },
+      { name: "O3 facial", price: "₹2500" },
+      { name: "Skin miracle", price: "₹2000" },
+      { name: "Whitening facial", price: "₹2500" },
+      { name: "Anti-aging facial", price: "₹2000" },
+      { name: "Shanhaz facial", price: "₹1500" },
+      { name: "Galvanic facial", price: "₹800" },
     ],
   },
   {
     category: "Bleaches",
     emoji: "✨",
     items: [
-      { name: "Cream Bleach", price: "₹250" },
-      { name: "Fruit Bleach", price: "₹250" },
-      { name: "Gel Bleach", price: "₹300" },
-      { name: "Gold Bleach", price: "₹400" },
-      { name: "Diamond Bleach", price: "₹500" },
-      { name: "Oxy Bleach", price: "₹400" },
-      { name: "Imported Bleach", price: "₹600" },
+      { name: "Cream Bleach", price: "₹300" },
+      { name: "Fruit Bleach", price: "₹350" },
+      { name: "Haldi chandan", price: "₹400" },
+      { name: "O3 Gel Bleach", price: "₹400" },
+      { name: "Gold Bleach", price: "₹450" },
+      { name: "Diamond Bleach", price: "₹450" },
+      { name: "Oxy Bleach", price: "₹500" },
+      { name: "Dtan (face & neck)", price: "₹500" },
+      { name: "Under arm dtan", price: "₹500" },
+      { name: "Neck Bleach", price: "₹550" },
+      { name: "Neck Dtan", price: "₹550" },
+      { name: "Face Dtan", price: "₹600" },
+      { name: "Face, Hands & Legs Bleach", price: "₹600" },
     ],
   },
   {
-    category: "Packages",
-    emoji: "📦",
+    category: "Makeup",
+    emoji: "💋",
     items: [
-      {
-        name: "₹1,500 Package",
-        price: "₹1,500",
-        note: "Fruit Facial · Manicure · Pedicure · Hand Wax · Head Massage",
-      },
-      {
-        name: "₹2,000 Package",
-        price: "₹2,000",
-        note: "Fruit Facial · Leg Wax · Hand Wax · D-Tan · Manicure · Head Massage",
-      },
-      {
-        name: "₹2,499 Package",
-        price: "₹2,499",
-        note: "Fruit Herbal Bleach · Wine Facial · Under Eye Treatment · Back Massage · Head Oil Massage · Basic Haircut · Eyebrows",
-      },
-      {
-        name: "₹3,499 Package",
-        price: "₹3,499",
-        note: "Face D-Tan · Skin Brightening / Anti-Aging · Pimple / Pigmentation Treatment · Back Massage · Pedicure · Manicure · Head Massage & Hair Spa · Hand & Leg Wax · Advanced Hair Cut",
-      },
+      { name: "Basic Makeup", price: "₹6000" },
+      { name: "Bridal guest makeup", price: "₹2500" },
+      { name: "Bridal H.D. makeup", price: "₹7000" },
+      { name: "Glossy & No makeup look", price: "₹7500" },
+      { name: "Engagement Makeup", price: "₹6000" },
     ],
   },
   {
@@ -150,26 +186,23 @@ const SERVICE_DATA: ServiceGroup[] = [
     emoji: "👰",
     items: [
       {
-        name: "₹10,000 Bridal Package",
-        price: "₹10,000",
-        note: "Facial · Hand & Leg Wax · Pedicure · Manicure · Eyebrow · Bridal Jewellery · Makeup",
+        name: "Silver Package",
+        price: "₹12,000",
+        note: "Reception Makeup + Muhurtham Makeup · Reception Jewelry Free · 2 Saree Box folding Free",
       },
       {
-        name: "₹15,000 Bridal Package",
-        price: "₹15,000",
-        note: "Makeup ×2 · Facial ×2 · Leg Wax ×2 · Hand Wax ×2 · Pedicure ×2 · Manicure ×2 · Jewellery ×2 · Mehendi ×2",
+        name: "Golden Package",
+        price: "₹18,000",
+        note: "Reception Makeup + Muhurtham Makeup + Naluu Makeup · Reception & Muhurtham Jewelry Free · 2 Sarees Box folding Free",
       },
-    ],
-  },
-  {
-    category: "Makeup",
-    emoji: "💋",
-    items: [
-      { name: "Party Makeup", price: "₹1,500" },
-      { name: "Engagement Makeup", price: "₹3,000" },
-      { name: "Normal Bridal Makeup", price: "₹3,500" },
-      { name: "M.A.C Makeup", price: "₹8,000" },
-      { name: "H.D Makeup", price: "₹5,000" },
+      {
+        name: "Platinum Package",
+        price: "₹25,000",
+        note: "Reception + Muhurtham + Engagement + Nalugu Makeup · 3 Bridal Jewelry Free · Complimentary one guest makeup · 4 Sarees Box folding Free",
+      },
+      { name: "Bridal Jewellery", price: "₹2,000 – ₹5,000" },
+      { name: "Bridal Mehendi", price: "₹2,000 – ₹7,000" },
+      { name: "Saree Box folding", price: "₹350 – ₹500" },
     ],
   },
 ];
@@ -206,15 +239,13 @@ function CategoryTabs({
 function ServiceCard({ group }: { group: ServiceGroup }) {
   const [open, setOpen] = useState(false);
 
-  // Show first 4 items collapsed, rest revealed on expand
   const PREVIEW = 4;
   const hasMore = group.items.length > PREVIEW;
   const visible = open ? group.items : group.items.slice(0, PREVIEW);
 
   return (
     <div className="bg-background border border-border flex flex-col">
-      {/* Header */}
-      <div className="px-6 pt-6 pb-4 border-b border-border flex items-center gap-3 ">
+      <div className="px-6 pt-6 pb-4 border-b border-border flex items-center gap-3">
         <span className="text-xl">{group.emoji}</span>
         <h3 className="font-display text-xl text-ink">{group.category}</h3>
         <span className="ml-auto text-xs text-muted-foreground">
@@ -222,14 +253,13 @@ function ServiceCard({ group }: { group: ServiceGroup }) {
         </span>
       </div>
 
-      {/* Items */}
       <ul className="flex-1 divide-y divide-border">
         {visible.map((item) => (
           <li key={item.name} className="px-6 py-3">
             <div className="flex items-start justify-between gap-4">
               <span className="text-sm text-ink leading-snug">{item.name}</span>
               <span className="text-sm font-medium text-rose shrink-0">
-                {item.price}
+                {item.price ?? "—"}
               </span>
             </div>
             {item.note && (
@@ -241,7 +271,6 @@ function ServiceCard({ group }: { group: ServiceGroup }) {
         ))}
       </ul>
 
-      {/* Expand toggle */}
       {hasMore && (
         <button
           onClick={() => setOpen((o) => !o)}
@@ -269,7 +298,6 @@ function ServicesPage() {
   return (
     <section className="py-20">
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
-        {/* Hero text */}
         <SectionReveal className="text-center mb-12">
           <p className="eyebrow">Our Services</p>
           <h1 className="font-display text-5xl md:text-6xl mt-4 text-ink">
@@ -282,10 +310,8 @@ function ServicesPage() {
           </p>
         </SectionReveal>
 
-        {/* Category filter */}
         <CategoryTabs active={activeCategory} onChange={setActiveCategory} />
 
-        {/* Service cards grid */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {filtered.map((group, i) => (
             <SectionReveal key={group.category} delay={i * 0.06}>
@@ -294,7 +320,6 @@ function ServicesPage() {
           ))}
         </div>
 
-        {/* CTA */}
         <div className="text-center mt-16">
           <Link to="/booking" className="btn-primary">
             Book Your Appointment
