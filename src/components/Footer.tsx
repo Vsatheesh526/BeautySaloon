@@ -28,9 +28,9 @@ export function Footer() {
           </div>
           <div>
             <h4 className="font-display text-lg mb-3 text-ink">Opening Hours</h4>
-            <p className="text-muted-foreground">Mon – Fri: 10am – 8pm</p>
-            <p className="text-muted-foreground">Sat: 10am – 4pm</p>
-            <p className="text-muted-foreground">Sun: 10am – 6pm</p>
+            <p className="text-muted-foreground">Mon – Fri: 9am – 7pm</p>
+            <p className="text-muted-foreground">Sat: 9am – 7pm</p>
+            <p className="text-muted-foreground">Sun: 9am – pm</p>
           </div>
           <div>
             <h4 className="font-display text-lg mb-3 text-ink">Follow</h4>
