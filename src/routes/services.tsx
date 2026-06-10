@@ -325,6 +325,14 @@ function ServicesPage() {
             Book Your Appointment
           </Link>
         </div>
+
+        {/* Contact & Address from original poster */}
+        <div className="mt-20 pt-8 border-t border-border text-center text-sm text-muted-foreground">
+          <p className="font-medium text-ink">📞 Call us: 99517 12604</p>
+          <p className="mt-1">
+            17-427, Beside Royalaseema Dental Clinic, Sundarayyar Street, Chittoor.
+          </p>
+        </div>
       </div>
     </section>
   );
