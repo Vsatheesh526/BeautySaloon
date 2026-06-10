@@ -103,7 +103,7 @@ function RootComponent() {
     <QueryClientProvider client={queryClient}>
       <PageLoader />
       <ScrollProgress />
-      <PromotionalPopup />
+      {/* <PromotionalPopup /> */}
       <div className={`transition-opacity duration-700 ease-out ${ready ? "opacity-100" : "opacity-0"}`}>
         <Navbar />
         <main className="min-h-screen pt-20">
