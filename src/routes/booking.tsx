@@ -246,7 +246,7 @@ function BookingPage() {
 
     // ✅ Updated WhatsApp number: 99517 12604 → +919951712604
     const message = `Hello Harika Beauty Saloon,\n\nI would like to book an appointment with the following details:\n- Name: ${name}\n- Phone: ${phone}\n- Service: ${serviceLabel}\n- Date: ${date}\n- Time: ${time}\n- Notes: ${notes}\n\nPlease confirm.`;
-    const whatsappUrl = `https://wa.me/919951712604?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/94902 69754?text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, "_blank");
     setSuccess(true);
