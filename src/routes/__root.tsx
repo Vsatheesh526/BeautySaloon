@@ -71,6 +71,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Your destination for beauty and relaxation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+
     
 
     ],
@@ -79,6 +80,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@500;600&display=swap" },
+      { rel: "canonical", href: "https://beauty-saloon-dusky.vercel.app/"}
     ],
   }),
   shellComponent: RootShell,
