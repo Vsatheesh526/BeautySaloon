@@ -58,9 +58,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { charSet: "utf-8" },
       { name: "google-site-verification", content: "XnIPD4-dVbKrFITvXXbqURHoJ1B8k6B6dB0iqdNiV-Q" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Harika Beauty Parlour in penumur,chittoor | Hair, Makeup, Bridal Services, Beauty Parlour " },
-      { name: "description", content: "A modern beauty saloon offering hair styling, bridal makeup, facials, spa & more. Book your appointment today." },
-      { name: "author", content: "Harika Beauty Saloon" },
+      {
+        title: "Harika Beauty Parlour in Penumur, Chittoor | Hair, Makeup, Bridal Services",
+      },
+      {name: "description",
+      content: "Best beauty parlour in Penumur, Chittoor offering haircuts, bridal makeup, facials, spa and salon services. Book your appointment today.",},      { name: "author", content: "Harika Beauty Saloon" },
+      {
+  name: "keywords",
+  content: "beauty parlour in chittoor, salon in penumur, bridal makeup chittoor, haircut near me",
+},
       { property: "og:title", content: "Harika Beauty Saloon" },
       { property: "og:description", content: "Your destination for beauty and relaxation." },
       { property: "og:type", content: "website" },
