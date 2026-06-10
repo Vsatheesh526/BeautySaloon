@@ -2,44 +2,132 @@ import { createFileRoute } from "@tanstack/react-router";
 import { useState, type FormEvent, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { CheckCircle2, ChevronDown } from "lucide-react";
-import { services } from "@/data/services";
 import { SectionReveal } from "@/components/SectionReveal";
 
-// Service categories with emojis
+// ─── Real service data from the WhatsApp poster ─────────────────────────────
+
+// Flatten all services into a list of { slug, title, price, category }
+const REAL_SERVICES = [
+  // Threading
+  { slug: "eyebrow-shape", title: "Eyebrow shape", price: "₹50", category: "Threading" },
+  { slug: "upper-lip", title: "Upper Lip", price: "₹30", category: "Threading" },
+  { slug: "chin", title: "Chin", price: "₹40", category: "Threading" },
+  { slug: "full-face-threading", title: "Full Face", price: "₹150", category: "Threading" },
+  // Haircuts
+  { slug: "hair-split-ends", title: "Hair split ends", price: "₹350", category: "Haircuts" },
+  { slug: "baby-hair-cut", title: "Baby Hair cut", price: "₹200", category: "Haircuts" },
+  { slug: "straight-cut", title: "Straight cut", price: "₹200", category: "Haircuts" },
+  { slug: "light-u-cut", title: "Light U cut", price: "₹250", category: "Haircuts" },
+  { slug: "deep-u-cut", title: "Deep U cut", price: "₹250", category: "Haircuts" },
+  { slug: "step-cut", title: "Step cut", price: "₹550", category: "Haircuts" },
+  { slug: "layer-cut", title: "Layer cut", price: "₹550", category: "Haircuts" },
+  { slug: "father-cut", title: "Father cut", price: "₹600", category: "Haircuts" },
+  { slug: "step-with-layers", title: "Step with layers", price: "₹650", category: "Haircuts" },
+  { slug: "butterfly-cut", title: "Butterfly cut", price: "₹650", category: "Haircuts" },
+  { slug: "blow-dry-setting", title: "Blow dry setting", price: "₹400", category: "Haircuts" },
+  // Hair Treatments
+  { slug: "hair-wash-conditioning", title: "Hair wash & conditioning", price: "₹250", category: "Hair Treatments" },
+  { slug: "hair-spa", title: "Hair Spa", price: "₹700 / ₹800 / ₹1000", category: "Hair Treatments" },
+  { slug: "hair-conditioning-pack", title: "Hair Conditioning pack", price: "₹500 / ₹700", category: "Hair Treatments" },
+  { slug: "henna", title: "Henna", price: "₹400+", category: "Hair Treatments" },
+  { slug: "hair-coloring", title: "Hair Coloring", price: "₹350+", category: "Hair Treatments" },
+  { slug: "hair-regrowth", title: "Hair Re-growth treatment", price: "₹1000", category: "Hair Treatments" },
+  { slug: "hair-dandruff", title: "Hair Dandruff treatment", price: "₹1000", category: "Hair Treatments" },
+  // Waxing
+  { slug: "face-wax", title: "Face wax", price: "₹200", category: "Waxing" },
+  { slug: "upper-lip-wax", title: "Upper Lip wax", price: "₹50", category: "Waxing" },
+  { slug: "chin-wax", title: "Chin wax", price: "₹100", category: "Waxing" },
+  { slug: "under-arm-wax", title: "Under arm wax", price: "₹100", category: "Waxing" },
+  { slug: "hand-wax", title: "Hand wax", price: "₹350", category: "Waxing" },
+  { slug: "half-leg-wax", title: "Half leg wax", price: "₹350", category: "Waxing" },
+  { slug: "full-leg-wax", title: "Full leg wax", price: "₹600", category: "Waxing" },
+  // Massages
+  { slug: "relaxing-face-massage", title: "Relaxing face massage", price: "₹400", category: "Massages" },
+  { slug: "head-massage-oil", title: "Head Massage (oil)", price: "₹400", category: "Massages" },
+  { slug: "neck-massage-oil", title: "Neck Massage (oil)", price: "₹400", category: "Massages" },
+  // Nail Care
+  { slug: "pedicure", title: "Pedicure", price: "₹650", category: "Nail Care" },
+  { slug: "manicure", title: "Manicure", price: "₹600", category: "Nail Care" },
+  // Facials & Cleanups
+  { slug: "regular-cleanup", title: "Regular Cleanup", price: "₹350", category: "Facials" },
+  { slug: "fruit-cleanup", title: "Fruit Cleanup", price: "₹400", category: "Facials" },
+  { slug: "oil-remove-cleanup", title: "Oil Remove cleanup", price: "₹500", category: "Facials" },
+  { slug: "dry-skin-cleanup", title: "Dry skin cleanup", price: "₹400", category: "Facials" },
+  { slug: "gold-cleanup", title: "Gold cleanup", price: "₹600", category: "Facials" },
+  { slug: "pimple-cleanup", title: "Pimple cleanup", price: "₹500", category: "Facials" },
+  { slug: "basic-facial", title: "Basic facial", price: "₹500", category: "Facials" },
+  { slug: "mixed-fruit-facial", title: "Mixed fruit facial", price: "₹600", category: "Facials" },
+  { slug: "papaya-facial", title: "Papaya facial", price: "₹650", category: "Facials" },
+  { slug: "tea-tree-facial", title: "Tea tree facial", price: "₹650", category: "Facials" },
+  { slug: "strawberry-facial", title: "Strawberry facial", price: "₹600", category: "Facials" },
+  { slug: "gel-facial", title: "Gel facial", price: "₹750", category: "Facials" },
+  { slug: "wine-facial", title: "Wine facial", price: "₹750", category: "Facials" },
+  { slug: "pearl-facial", title: "Pearl facial", price: "₹1000", category: "Facials" },
+  { slug: "cucumber-facial", title: "Cucumber facial", price: "₹1200", category: "Facials" },
+  { slug: "dtan-facial", title: "Dtan facial", price: "₹1400", category: "Facials" },
+  { slug: "7step-facial", title: "7 step facial", price: "₹1500", category: "Facials" },
+  { slug: "8step-facial", title: "8 step facial", price: "₹2000", category: "Facials" },
+  { slug: "gold-facial", title: "Gold facial", price: "₹2000", category: "Facials" },
+  { slug: "diamond-facial", title: "Diamond facial", price: "₹2500", category: "Facials" },
+  { slug: "o3-facial", title: "O3 facial", price: "₹2500", category: "Facials" },
+  { slug: "skin-miracle", title: "Skin miracle", price: "₹2000", category: "Facials" },
+  { slug: "whitening-facial", title: "Whitening facial", price: "₹2500", category: "Facials" },
+  { slug: "antiaging-facial", title: "Anti-aging facial", price: "₹2000", category: "Facials" },
+  { slug: "shanhaz-facial", title: "Shanhaz facial", price: "₹1500", category: "Facials" },
+  { slug: "galvanic-facial", title: "Galvanic facial", price: "₹800", category: "Facials" },
+  // Bleaches
+  { slug: "cream-bleach", title: "Cream Bleach", price: "₹300", category: "Bleaches" },
+  { slug: "fruit-bleach", title: "Fruit Bleach", price: "₹350", category: "Bleaches" },
+  { slug: "haldi-chandan", title: "Haldi chandan", price: "₹400", category: "Bleaches" },
+  { slug: "o3-gel-bleach", title: "O3 Gel Bleach", price: "₹400", category: "Bleaches" },
+  { slug: "gold-bleach", title: "Gold Bleach", price: "₹450", category: "Bleaches" },
+  { slug: "diamond-bleach", title: "Diamond Bleach", price: "₹450", category: "Bleaches" },
+  { slug: "oxy-bleach", title: "Oxy Bleach", price: "₹500", category: "Bleaches" },
+  { slug: "dtan-face-neck", title: "Dtan (face & neck)", price: "₹500", category: "Bleaches" },
+  { slug: "underarm-dtan", title: "Under arm dtan", price: "₹500", category: "Bleaches" },
+  { slug: "neck-bleach", title: "Neck Bleach", price: "₹550", category: "Bleaches" },
+  { slug: "neck-dtan", title: "Neck Dtan", price: "₹550", category: "Bleaches" },
+  { slug: "face-dtan", title: "Face Dtan", price: "₹600", category: "Bleaches" },
+  { slug: "face-hands-legs-bleach", title: "Face, Hands & Legs Bleach", price: "₹600", category: "Bleaches" },
+  // Makeup
+  { slug: "basic-makeup", title: "Basic Makeup", price: "₹6000", category: "Makeup" },
+  { slug: "bridal-guest-makeup", title: "Bridal guest makeup", price: "₹2500", category: "Makeup" },
+  { slug: "bridal-hd-makeup", title: "Bridal H.D. makeup", price: "₹7000", category: "Makeup" },
+  { slug: "glossy-no-makeup", title: "Glossy & No makeup look", price: "₹7500", category: "Makeup" },
+  { slug: "engagement-makeup", title: "Engagement Makeup", price: "₹6000", category: "Makeup" },
+  // Bridal Packages
+  { slug: "silver-package", title: "Silver Package", price: "₹12,000", category: "Bridal" },
+  { slug: "golden-package", title: "Golden Package", price: "₹18,000", category: "Bridal" },
+  { slug: "platinum-package", title: "Platinum Package", price: "₹25,000", category: "Bridal" },
+  { slug: "bridal-jewellery", title: "Bridal Jewellery", price: "₹2,000 – ₹5,000", category: "Bridal" },
+  { slug: "bridal-mehendi", title: "Bridal Mehendi", price: "₹2,000 – ₹7,000", category: "Bridal" },
+  { slug: "saree-box-folding", title: "Saree Box folding", price: "₹350 – ₹500", category: "Bridal" },
+];
+
+// Categories with emojis & styling (matches services page)
 const SERVICE_CATEGORIES = [
-  { name: "Threading", emoji: "💁‍♀️", textClass: "text-rose", bgClass: "bg-pink-100" },
+  { name: "Threading", emoji: "🪶", textClass: "text-rose", bgClass: "bg-pink-100" },
   { name: "Haircuts", emoji: "✂️", textClass: "text-violet-600", bgClass: "bg-emerald-100" },
+  { name: "Hair Treatments", emoji: "💆‍♀️", textClass: "text-indigo-600", bgClass: "bg-indigo-100" },
   { name: "Waxing", emoji: "🧴", textClass: "text-amber-700", bgClass: "bg-amber-100" },
+  { name: "Massages", emoji: "🖐️", textClass: "text-teal-600", bgClass: "bg-teal-100" },
+  { name: "Nail Care", emoji: "💅", textClass: "text-pink-600", bgClass: "bg-pink-100" },
   { name: "Facials", emoji: "🌿", textClass: "text-emerald-700", bgClass: "bg-emerald-100" },
   { name: "Bleaches", emoji: "✨", textClass: "text-sky-700", bgClass: "bg-sky-100" },
-  { name: "Packages", emoji: "📦", textClass: "text-fuchsia-700", bgClass: "bg-fuchsia-100" },
-  { name: "Bridal", emoji: "👰", textClass: "text-pink-700", bgClass: "bg-pink-100" },
   { name: "Makeup", emoji: "💋", textClass: "text-rose-700", bgClass: "bg-rose-100" },
+  { name: "Bridal", emoji: "👰", textClass: "text-fuchsia-700", bgClass: "bg-fuchsia-100" },
 ];
 
 function groupServicesByCategory() {
-  const grouped: Record<string, typeof services> = {};
-  
-  services.forEach((service) => {
-    let category = "";
-    
-    if (service.slug.includes("threading")) category = "Threading";
-    else if (service.slug.includes("cut") || service.slug.includes("layer") || service.slug.includes("feather") || service.slug.includes("step")) category = "Haircuts";
-    else if (service.slug.includes("wax")) category = "Waxing";
-    else if (service.slug.includes("facial") || service.slug.includes("cleanup") || service.slug.includes("d-tan")) category = "Facials";
-    else if (service.slug.includes("bleach")) category = "Bleaches";
-    else if (service.slug.includes("pkg")) category = "Packages";
-    else if (service.slug.includes("bridal")) category = "Bridal";
-    else if (service.slug.includes("makeup")) category = "Makeup";
-    
-    if (!category) return;
-    if (!grouped[category]) grouped[category] = [];
-    grouped[category].push(service);
-  });
-  
+  const grouped: Record<string, typeof REAL_SERVICES> = {};
+  for (const service of REAL_SERVICES) {
+    if (!grouped[service.category]) grouped[service.category] = [];
+    grouped[service.category].push(service);
+  }
   return grouped;
 }
 
+// Dropdown component (unchanged except using REAL_SERVICES)
 function ServiceDropdown({ 
   value, 
   onChange 
@@ -50,18 +138,14 @@ function ServiceDropdown({
   const [open, setOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
   const grouped = groupServicesByCategory();
-  const selectedService = services.find((s) => s.slug === value);
+  const selectedService = REAL_SERVICES.find((s) => s.slug === value);
 
   useEffect(() => {
     function handleClickOutside(e: MouseEvent) {
-      if (
-        dropdownRef.current &&
-        !dropdownRef.current.contains(e.target as Node)
-      ) {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
         setOpen(false);
       }
     }
-
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
@@ -91,16 +175,15 @@ function ServiceDropdown({
             className="absolute top-full left-0 right-0 mt-2 bg-background border border-border rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto"
           >
             {Object.entries(grouped).map(([category, categoryServices]) => {
-              const categoryEmoji = SERVICE_CATEGORIES.find(
-                (c) => c.name === category
-              )?.emoji || "•";
+              const catInfo = SERVICE_CATEGORIES.find((c) => c.name === category);
+              const emoji = catInfo?.emoji || "•";
+              const textClass = catInfo?.textClass || "text-muted-foreground";
+              const bgClass = catInfo?.bgClass || "bg-blush/10";
 
               return (
                 <div key={category}>
-                  <div className={`px-4 py-2 text-xs font-display uppercase tracking-widest border-b border-border/50 sticky top-0 ${SERVICE_CATEGORIES.find((c) => c.name === category)?.bgClass ?? "bg-blush/10"}`}>
-                    <span className={`${SERVICE_CATEGORIES.find((c) => c.name === category)?.textClass ?? "text-muted-foreground"}`}>
-                      {categoryEmoji} {category}
-                    </span>
+                  <div className={`px-4 py-2 text-xs font-display uppercase tracking-widest border-b border-border/50 sticky top-0 ${bgClass}`}>
+                    <span className={textClass}>{emoji} {category}</span>
                   </div>
                   {categoryServices.map((service) => (
                     <button
@@ -158,17 +241,19 @@ function BookingPage() {
     const date = formData.get("date")?.toString().trim() ?? "";
     const time = formData.get("time")?.toString().trim() ?? "";
     const notes = formData.get("notes")?.toString().trim() ?? "None";
-    const selectedServiceItem = services.find((s) => s.slug === serviceSlug);
+    const selectedServiceItem = REAL_SERVICES.find((s) => s.slug === serviceSlug);
     const serviceLabel = selectedServiceItem ? `${selectedServiceItem.title} — ${selectedServiceItem.price}` : serviceSlug;
 
+    // ✅ Updated WhatsApp number: 99517 12604 → +919951712604
     const message = `Hello Harika Beauty Saloon,\n\nI would like to book an appointment with the following details:\n- Name: ${name}\n- Phone: ${phone}\n- Service: ${serviceLabel}\n- Date: ${date}\n- Time: ${time}\n- Notes: ${notes}\n\nPlease confirm.`;
-    const whatsappUrl = `https://wa.me/919490269754?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919951712604?text=${encodeURIComponent(message)}`;
 
     window.open(whatsappUrl, "_blank");
     setSuccess(true);
     form.reset();
     setSelectedService("");
   }
+
   return (
     <section className="py-20 bg-blush/30 min-h-[80vh]">
       <div className="max-w-3xl mx-auto px-6 lg:px-12">
