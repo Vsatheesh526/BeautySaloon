@@ -61,17 +61,20 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         title: "Harika Beauty Parlour in Penumur, Chittoor | Hair, Makeup, Bridal Services",
       },
-      {name: "description",
-      content: "Best beauty parlour in Penumur, Chittoor offering haircuts, bridal makeup, facials, spa and salon services. Book your appointment today.",},      { name: "author", content: "Harika Beauty Saloon" },
       {
-  name: "keywords",
-  content: "beauty parlour in chittoor, salon in penumur, bridal makeup chittoor, haircut near me",
-},
+        name: "description",
+        content: "Best beauty parlour in Penumur, Chittoor offering haircuts, bridal makeup, facials, spa and salon services. Book your appointment today."
+      },     
+      { name: "author", content: "Harika Beauty Saloon" },
+      
+      {name: "keywords",
+        content: "beauty parlour in chittoor, salon in penumur, bridal makeup chittoor, haircut near me",
+      },
       { property: "og:title", content: "Harika Beauty Saloon" },
       { property: "og:description", content: "Your destination for beauty and relaxation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
-
+    
     
 
     ],
@@ -80,7 +83,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@500;600&display=swap" },
-      { rel: "canonical", href: "https://beauty-saloon-dusky.vercel.app/"}
+      { rel: "canonical", href: "https://beauty-saloon-dusky.vercel.app/"},
+      {
+        rel: "icon", href: "/logo2.png"
+      }
     ],
   }),
   shellComponent: RootShell,
