@@ -74,6 +74,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:description", content: "Your destination for beauty and relaxation." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
+      {
+         property : "og:site_name", content:"Harika Beauty Saloon"
+      },
+      {
+        name:"application-name", content: "Harika Beauty Saloon"
+      }
     
     
 
