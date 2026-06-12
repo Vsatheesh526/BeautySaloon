@@ -230,7 +230,41 @@ export const Route = createFileRoute("/booking")({
 function BookingPage() {
   const [success, setSuccess] = useState(false);
   const [selectedService, setSelectedService] = useState("");
-  
+  const [timeValue, setTimeValue] = useState("");
+
+  // Helper: convert various time inputs to "hh:mm AM/PM" format
+  function formatTo12Hour(timeStr: string): string {
+    let cleaned = timeStr.trim();
+    const match = cleaned.match(/(\d{1,2})[\:\.\s]?(\d{2})?\s*(am|pm)?/i);
+    if (!match) return cleaned;
+
+    let hours = parseInt(match[1], 10);
+    let minutes = match[2] ? parseInt(match[2], 10) : 0;
+    let suffix = match[3] ? match[3].toLowerCase() : "";
+
+    if (suffix === "am" || suffix === "pm") {
+      // Convert 12am → 0, 12pm → 12 for internal calculation
+      if (suffix === "pm" && hours < 12) hours += 12;
+      if (suffix === "am" && hours === 12) hours = 0;
+    } else {
+      // Assume 24‑hour format if no AM/PM
+      suffix = hours >= 12 ? "pm" : "am";
+      if (hours > 12) hours -= 12;
+      if (hours === 0) hours = 12;
+    }
+
+    // Convert back to 12‑hour display
+    let displayHour = hours % 12;
+    if (displayHour === 0) displayHour = 12;
+    const formattedMinutes = minutes < 10 ? `0${minutes}` : `${minutes}`;
+    return `${displayHour}:${formattedMinutes} ${suffix.toUpperCase()}`;
+  }
+
+  function onTimeBlur() {
+    const formatted = formatTo12Hour(timeValue);
+    if (formatted !== timeValue) setTimeValue(formatted);
+  }
+
   function onSubmit(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.target as HTMLFormElement;
@@ -245,13 +279,14 @@ function BookingPage() {
     const serviceLabel = selectedServiceItem ? `${selectedServiceItem.title} — ${selectedServiceItem.price}` : serviceSlug;
 
     const message = `Hello Harika Beauty Saloon,\n\nI would like to book an appointment with the following details:\n- Name: ${name}\n- Phone: ${phone}\n- Service: ${serviceLabel}\n- Date: ${date}\n- Time: ${time}\n- Notes: ${notes}\n\nPlease confirm.`;
-  const whatsappUrl = `https://wa.me/919490269754?text=${encodeURIComponent(message)}`;
+    const whatsappUrl = `https://wa.me/919490269754?text=${encodeURIComponent(message)}`;
 
-  window.open(whatsappUrl, "_blank");
-  setSuccess(true);
-  form.reset();
-  setSelectedService("");
-}
+    window.open(whatsappUrl, "_blank");
+    setSuccess(true);
+    form.reset();
+    setSelectedService("");
+    setTimeValue(""); // Reset the custom time field
+  }
 
   return (
     <section className="py-20 bg-blush/30 min-h-[80vh]">
@@ -286,7 +321,17 @@ function BookingPage() {
               </div>
               <div>
                 <label className="eyebrow block mb-2">Time</label>
-                <input required name="time" type="time" className="w-full bg-transparent border-b border-border py-2.5 focus:border-rose outline-none" />
+                <input
+                  required
+                  name="time"
+                  type="text"
+                  placeholder="e.g., 10:30 AM"
+                  value={timeValue}
+                  onChange={(e) => setTimeValue(e.target.value)}
+                  onBlur={onTimeBlur}
+                  className="w-full bg-transparent border-b border-border py-2.5 focus:border-rose outline-none"
+                />
+            
               </div>
             </div>
             <div>
