@@ -91,7 +91,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "stylesheet", href: "https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Poppins:wght@300;400;500;600&family=Dancing+Script:wght@500;600&display=swap" },
       { rel: "canonical", href: "https://beauty-saloon-dusky.vercel.app/"},
       {
-        rel: "icon", href: "/logo2.png"
+        rel: "icon", href: "/logo2.jpg"
       }
     ],
   }),
