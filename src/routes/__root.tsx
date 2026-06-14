@@ -80,10 +80,24 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name:"application-name", content: "Harika Beauty Saloon"
       }
-    
-    
-
+  
     ],
+    
+    script: [
+    {
+      src: "https://www.googletagmanager.com/gtag/js?id=G-LNMVLG4VHK",
+      async: true
+    },
+    {
+      children: `
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LNMVLG4VHK');
+      `
+    }
+  ],
+
     links: [
       { rel: "stylesheet", href: appCss },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
